@@ -146,7 +146,7 @@ textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:
 .mtabs,.mbar,#mtoast{display:none}
 @media (max-width:767px){
  html,body{overflow-x:hidden}
- body{padding-bottom:calc(80px + env(safe-area-inset-bottom,0px))}
+ body{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
  .app{display:block;padding:10px;max-width:100%;overflow-x:hidden}
  .panel,.preview{min-width:0;max-width:100%}.panel{padding:12px}
  body[data-view="edit"] .preview{display:none}
@@ -820,9 +820,8 @@ async function saveBlob(blob,name){
 $("pdfdl").onclick=async function(){var b=this,m=$("wmsg");if(b.disabled)return;b.disabled=true;m.textContent="Generando PDF…";
  try{m.textContent=(await saveBlob(await pdfBlob(),fname("pdf")))===false?"Descarga cancelada.":"Listo: PDF generado."}catch(e){m.textContent="No se pudo generar el PDF."}b.disabled=false};
 /* ===== Móvil: pestañas, barra inferior y ajuste de la hoja ===== */
-function fit(){var sh=$("sheet");sh.style.zoom="";if(!(window.matchMedia&&matchMedia("(max-width:767px)").matches))return;var w=sh.parentNode.clientWidth;if(w&&sh.offsetWidth>w)sh.style.zoom=w/sh.offsetWidth}
-function fitSheet(){var pv=document.querySelector(".preview"),sh=$("sheet");if(!pv||!sh)return;sh.style.zoom=1;if(innerWidth<768)return;var z=(pv.clientWidth-48)/sh.offsetWidth;sh.style.zoom=z<1?z:1}
-addEventListener("resize",fitSheet);if(window.ResizeObserver)new ResizeObserver(fitSheet).observe(document.querySelector(".preview"));fitSheet();
+function fit(){var sh=$("sheet"),pv=document.querySelector(".preview");sh.style.zoom="";var w=matchMedia("(max-width:767px)").matches?sh.parentNode.clientWidth:pv.clientWidth-48;if(w>0&&sh.offsetWidth>w)sh.style.zoom=w/sh.offsetWidth}
+if(window.ResizeObserver)new ResizeObserver(fit).observe(document.querySelector(".preview"));fit();
 function setView(v){document.body.dataset.view=v;$("mt-edit").setAttribute("aria-selected",v==="edit");$("mt-prev").setAttribute("aria-selected",v==="preview");$("mb-view").textContent=v==="edit"?"📄 Vista previa":"✏️ Editar";window.scrollTo(0,0);fit()}
 $("mt-edit").onclick=function(){setView("edit")};$("mt-prev").onclick=function(){setView("preview")};
 $("mb-view").onclick=function(){setView(document.body.dataset.view==="edit"?"preview":"edit")};
