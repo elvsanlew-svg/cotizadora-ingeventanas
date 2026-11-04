@@ -1,4 +1,14 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Icono oficial de la app en la pantalla de inicio de Android y iPhone -->
+<link rel="icon" type="image/png" sizes="192x192" href="logo.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="logo.png" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="INGEVENTANAS" />
+<meta name="application-name" content="INGEVENTANAS" />
 <title>Cotizador Ingeventanas</title>
 <style>
 :root{--bg:#eef1f5;--panel:#fff;--ink:#14202e;--mute:#5b6878;--line:#d5dce5;--brand:#0b2545;--accent:#1f6fd1;--field:#f7f9fb;
@@ -45,9 +55,12 @@ button{font:inherit;cursor:pointer;border-radius:6px;border:1px solid var(--line
 .ficha ul+b{display:block;margin-top:6px}
 .wphoto{margin-top:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .thumb{height:46px;width:auto;max-width:90px;border:1px solid var(--line);border-radius:4px;object-fit:contain;background:#fff}
-.anx{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
-.anx-card{border:1px solid #c3c8cf;padding:6px;break-inside:avoid;background:#fff}
-.anx-card img{display:block;margin:0 auto;max-width:100%;max-height:70mm;width:auto;height:auto;object-fit:contain}
+.anx{margin-top:6px}.anx-row{display:flex;gap:8px;margin-bottom:8px;break-inside:avoid;page-break-inside:avoid}
+.anx-card{flex:0 0 calc(50% - 4px);min-width:0;border:1px solid #c3c8cf;padding:6px;break-inside:avoid;background:#fff}
+.anx-card{page-break-inside:avoid}
+.anx-card .ph{aspect-ratio:4/3;background:#f8fafc;overflow:hidden;position:relative}
+.anx-card .ph img{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);max-width:100%;max-height:100%}
+.anx-card .ph img.w{width:100%;height:auto}.anx-card .ph img.t{height:100%;width:auto}
 .anx-card .cap{font-size:9pt;margin-top:4px;text-align:center}
 .sw{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink);cursor:pointer}.sw input{width:auto}
 .cusbox>div{display:grid;gap:3px}
@@ -106,12 +119,20 @@ textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:
 .ft b{font-weight:400}
 .empty{color:#7a8795;text-align:center;padding:14px!important}
 @media (max-width:900px){.app{grid-template-columns:1fr;padding:12px}.sheet{width:100%}}
+@media (min-width:768px){
+ html,body{height:100%;overflow:hidden}
+ .app{display:flex;height:100vh;height:100dvh;max-width:none;margin:0;padding:0;gap:0;overflow:hidden}
+ .panel{flex:0 0 50%;width:50%;height:100%;overflow-y:auto;border:0;border-right:1px solid var(--line);border-radius:0;padding:24px}
+ .preview{flex:0 0 50%;width:50%;height:100%;overflow:auto;padding:24px;background:var(--bg)}
+ .sheet{width:210mm;max-width:none}
+}
 @page{size:A4;margin:0}
 @media print{
  html,body{background:#fff!important}:root{padding:0!important}
  .app{display:block;padding:0;max-width:none}
  .panel,.noprint{display:none!important}
- .preview{overflow:visible;display:block!important}
+ html,body{height:auto!important;overflow:visible!important}.app{height:auto;overflow:visible}
+ .preview{overflow:visible;display:block!important;width:auto;height:auto;padding:0}.sheet{zoom:1!important}
  .mtabs,.mbar,#mtoast{display:none!important}
  body{padding:0!important}
  .sheet{box-shadow:none;width:100%;margin:0}
@@ -128,7 +149,7 @@ textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:
 .mtabs,.mbar,#mtoast{display:none}
 @media (max-width:767px){
  html,body{overflow-x:hidden}
- body{padding-bottom:calc(80px + env(safe-area-inset-bottom,0px))}
+ body{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
  .app{display:block;padding:10px;max-width:100%;overflow-x:hidden}
  .panel,.preview{min-width:0;max-width:100%}.panel{padding:12px}
  body[data-view="edit"] .preview{display:none}
@@ -150,7 +171,8 @@ textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:
 .wa{display:block;margin-top:12px;padding:13px;border-radius:6px;background:#25d366;color:#04210f!important;font-weight:700;font-size:15px;text-align:center;text-decoration:none}
 .wa:hover{filter:brightness(1.05)}.wa:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 </style>
-<script>document.body.setAttribute("data-view","edit")</script>
+</head>
+<body data-view="edit">
 <nav class="mtabs noprint" role="tablist" aria-label="Vista"><button type="button" id="mt-edit" role="tab" aria-selected="true">📱 Edición</button><button type="button" id="mt-prev" role="tab" aria-selected="false">📄 Vista Previa</button></nav>
 <div class="app">
 <aside class="panel noprint">
@@ -244,7 +266,8 @@ textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:
    <h2 class="bar" id="p-title"></h2>
    <h2 id="p-fh">FICHA TÉCNICA DEL SISTEMA</h2>
    <div class="ficha" id="p-ficha"></div>
-   <h2 class="bar" id="p-anx-h" hidden>ANEXO FOTOGRÁFICO Y REGISTROS EN SITIO</h2>
+   <div class="end" id="p-anx-top"><h2 class="bar" id="p-anx-h" hidden>ANEXO FOTOGRÁFICO Y REGISTROS EN SITIO</h2>
+   <div class="anx" id="p-anx1"></div></div>
    <div class="anx" id="p-anx"></div>
    <h2 class="bar" id="p-det">DETALLE DE ÍTEMS — SUMINISTRO E INSTALACIÓN</h2>
    <table class="items">
@@ -513,7 +536,9 @@ function render(){
  var FS=fichaSections();$("p-fh").hidden=!FS.length;
  $("p-ficha").innerHTML=fichaHtml(FS);
  var PH=photos();$("p-anx-h").hidden=!PH.length;
- $("p-anx").innerHTML=PH.map(function(x){return "<div class='anx-card'><img src='"+x.src+"' alt=''><div class='cap'>"+esc(x.cap)+"</div></div>"}).join("");
+ var anxCard=function(x){return "<div class='anx-card'><div class='ph'><img class='"+(x.w/x.h>=4/3?"w":"t")+"' src='"+x.src+"' alt=''></div><div class='cap'>"+esc(x.cap)+"</div></div>"},
+  anxRows=function(a){for(var h="",i=0;i<a.length;i+=2)h+="<div class='anx-row'>"+a.slice(i,i+2).map(anxCard).join("")+"</div>";return h};
+ $("p-anx1").innerHTML=anxRows(PH.slice(0,2));$("p-anx").innerHTML=anxRows(PH.slice(2));
  $("fnm").textContent="Archivo: "+fname("docx");
  var und=0,m2=0,tot=0,html="";
  wins.forEach(function(r,i){
@@ -769,7 +794,7 @@ function pdfBlob(){
  w.appendChild(body);host.appendChild(w);document.body.appendChild(host);
  var sc=Math.max(1,Math.min(3,Math.sqrt(35e6/(w.scrollWidth*Math.max(1,w.scrollHeight))),16000/Math.max(1,w.scrollHeight)));
  var opt={margin:[26,12,18,12],image:{type:"jpeg",quality:0.95},html2canvas:{scale:sc,useCORS:true,backgroundColor:"#ffffff",scrollX:0,scrollY:0,windowWidth:document.documentElement.clientWidth,logging:false},
-  jsPDF:{unit:"mm",format:"a4",orientation:"portrait"},pagebreak:{mode:["css","legacy"],avoid:["tr",".fb",".anx-card",".fin",".cond",".end","h2"]}};
+  jsPDF:{unit:"mm",format:"a4",orientation:"portrait"},pagebreak:{mode:["css","legacy"],avoid:["tr",".fb",".anx-row",".fin",".cond",".end","h2"]}};
  return new Promise(function(ok,no){
   html2pdf().set(opt).from(w).toPdf().get("pdf").then(function(pdf){for(var i=1;i<=pdf.internal.getNumberOfPages();i++){pdf.setPage(i);pdfFrame(pdf,logo)}}).outputPdf("blob").then(ok,no)
  }).then(function(b){host.remove();return b},function(e){host.remove();throw e})}
@@ -801,7 +826,8 @@ async function saveBlob(blob,name){
 $("pdfdl").onclick=async function(){var b=this,m=$("wmsg");if(b.disabled)return;b.disabled=true;m.textContent="Generando PDF…";
  try{m.textContent=(await saveBlob(await pdfBlob(),fname("pdf")))===false?"Descarga cancelada.":"Listo: PDF generado."}catch(e){m.textContent="No se pudo generar el PDF."}b.disabled=false};
 /* ===== Móvil: pestañas, barra inferior y ajuste de la hoja ===== */
-function fit(){var sh=$("sheet");sh.style.zoom="";if(!(window.matchMedia&&matchMedia("(max-width:767px)").matches))return;var w=sh.parentNode.clientWidth;if(w&&sh.offsetWidth>w)sh.style.zoom=w/sh.offsetWidth}
+function fit(){var sh=$("sheet"),pv=document.querySelector(".preview");sh.style.zoom="";var w=matchMedia("(max-width:767px)").matches?sh.parentNode.clientWidth:pv.clientWidth-48;if(w>0&&sh.offsetWidth>w)sh.style.zoom=w/sh.offsetWidth}
+if(window.ResizeObserver)new ResizeObserver(fit).observe(document.querySelector(".preview"));fit();
 function setView(v){document.body.dataset.view=v;$("mt-edit").setAttribute("aria-selected",v==="edit");$("mt-prev").setAttribute("aria-selected",v==="preview");$("mb-view").textContent=v==="edit"?"📄 Vista previa":"✏️ Editar";window.scrollTo(0,0);fit()}
 $("mt-edit").onclick=function(){setView("edit")};$("mt-prev").onclick=function(){setView("preview")};
 $("mb-view").onclick=function(){setView(document.body.dataset.view==="edit"?"preview":"edit")};
@@ -810,4 +836,5 @@ window.addEventListener("resize",fit);window.addEventListener("beforeprint",func
 ["smsg","wmsg"].forEach(function(id){new MutationObserver(function(){var t=$(id).textContent,m=$("mtoast");if(t){m.textContent=t;m.hidden=false;clearTimeout(m.t);m.t=setTimeout(function(){m.hidden=true},4000)}}).observe($(id),{childList:true,characterData:true,subtree:true})});
 </script>
 
-</body></html>
+</body>
+</html>
